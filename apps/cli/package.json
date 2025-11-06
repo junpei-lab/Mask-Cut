@@ -1,0 +1,25 @@
+{
+  "name": "@mask-cut/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "mask-cut": "dist/index.js"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "pnpm run clean && tsup src/index.ts --format esm --sourcemap --banner.module \"#!/usr/bin/env node\"",
+    "dev": "tsx src/index.ts",
+    "start": "pnpm run build && node dist/index.js --help",
+    "lint": "tsc --noEmit",
+    "test": "echo 'No tests yet'"
+  },
+  "dependencies": {
+    "@mask-cut/text-llm-core": "workspace:*"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5",
+    "tsup": "^7.2.0",
+    "tsx": "^4.7.0"
+  }
+}

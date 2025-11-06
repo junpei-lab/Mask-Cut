@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mask-Cut Demo</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      textarea {
+        width: 100%;
+        height: 200px;
+        font-family: 'Fira Code', monospace;
+        font-size: 14px;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .status {
+        color: #666;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Mask-Cut LLM Masking Demo</h1>
+
+    <section>
+      <h2>接続設定</h2>
+      <p class="status" id="connection-info">
+        接続先: Ollama (http://localhost:11434/v1) / モデル: llama3
+      </p>
+    </section>
+
+    <section>
+      <h2>入力テキスト</h2>
+      <textarea id="input" placeholder="ここにマスキングしたいテキストを入力してください"></textarea>
+    </section>
+
+    <section>
+      <div class="actions">
+        <button id="run">マスク実行</button>
+        <span class="status" id="status-message"></span>
+      </div>
+    </section>
+
+    <section>
+      <h2>出力テキスト</h2>
+      <textarea id="output" readonly placeholder="マスク結果がここに表示されます"></textarea>
+    </section>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

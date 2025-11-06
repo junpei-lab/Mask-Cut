@@ -1,0 +1,23 @@
+{
+  "name": "@mask-cut/electron-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "pnpm run clean && tsc -p tsconfig.json && cpx \"src/renderer/**/*.html\" dist/renderer",
+    "start": "pnpm run build && electron .",
+    "dev": "pnpm run build && electron .",
+    "lint": "tsc --noEmit",
+    "test": "echo 'No tests yet'"
+  },
+  "dependencies": {
+    "@mask-cut/text-llm-core": "workspace:*"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "electron": "^28.2.2",
+    "rimraf": "^5.0.5"
+  }
+}
