@@ -8,11 +8,12 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "pnpm run clean && tsup src/index.ts --format esm --sourcemap --banner.module \"#!/usr/bin/env node\"",
+    "build": "pnpm run clean && tsup",
     "dev": "tsx src/index.ts",
     "start": "pnpm run build && node dist/index.js --help",
     "lint": "tsc --noEmit",
-    "test": "echo 'No tests yet'"
+    "test": "node --loader ts-node/esm --test",
+    "test:watch": "node --loader ts-node/esm --test --watch"
   },
   "dependencies": {
     "@mask-cut/text-llm-core": "workspace:*"

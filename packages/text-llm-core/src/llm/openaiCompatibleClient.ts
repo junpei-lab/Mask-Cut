@@ -1,8 +1,16 @@
-import fetch, { type RequestInit } from 'cross-fetch';
-
 import type { LLMClient, LLMRequest, LLMResponse } from './types';
 
-type FetchImpl = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+type FetchImpl = typeof globalThis.fetch;
+
+function resolveFetch(): FetchImpl {
+  if (typeof globalThis.fetch === 'function') {
+    return globalThis.fetch;
+  }
+
+  throw new Error(
+    'Global fetch API is not available in this runtime. Provide fetchImpl when constructing OpenAICompatibleClient.',
+  );
+}
 
 export interface OpenAICompatibleClientOptions {
   fetchImpl?: FetchImpl;
@@ -26,7 +34,7 @@ export class OpenAICompatibleClient implements LLMClient {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.apiKey = apiKey;
     this.defaultModel = defaultModel;
-    this.fetchImpl = options.fetchImpl ?? fetch;
+    this.fetchImpl = options.fetchImpl ?? resolveFetch();
   }
 
   async complete(req: LLMRequest): Promise<LLMResponse> {

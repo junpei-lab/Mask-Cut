@@ -10,7 +10,8 @@
     "types": ["node"],
     "allowJs": false,
     "isolatedModules": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {}
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"],
   "exclude": ["dist", "node_modules"]
