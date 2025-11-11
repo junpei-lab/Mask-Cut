@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/renderer",
+    "rootDir": "src/renderer",
+    "module": "ES2020",
+    "target": "ES2020",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "types": [],
+    "allowJs": false,
+    "isolatedModules": false,
+    "skipLibCheck": true,
+    "paths": {}
+  },
+  "include": ["src/renderer/**/*.ts", "src/renderer/**/*.tsx", "src/renderer/**/*.d.ts"],
+  "exclude": ["dist", "node_modules", "src/renderer/__tests__"]
+}

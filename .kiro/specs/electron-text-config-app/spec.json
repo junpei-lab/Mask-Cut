@@ -1,0 +1,22 @@
+{
+  "feature_name": "electron-text-config-app",
+  "created_at": "2025-11-08T14:40:48Z",
+  "updated_at": "2025-11-08T15:00:18Z",
+  "language": "ja",
+  "phase": "tasks-approved",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": true
+    },
+    "design": {
+      "generated": true,
+      "approved": true
+    },
+    "tasks": {
+      "generated": true,
+      "approved": true
+    }
+  },
+  "ready_for_implementation": false
+}

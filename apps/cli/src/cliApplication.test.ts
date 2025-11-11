@@ -225,7 +225,7 @@ test('runs mask command end-to-end and emits telemetry log', async () => {
           async getProfile() {
             return {
               name: 'default',
-              endpoint: 'http://localhost:11434/v1',
+              endpoint: 'http://localhost:1234/v1',
               model: 'llama3',
             };
           },
@@ -300,7 +300,7 @@ test('respects global dry-run flag during mask execution', async () => {
         async getProfile() {
           return {
             name: 'default',
-            endpoint: 'http://localhost:11434/v1',
+            endpoint: 'http://localhost:1234/v1',
             model: 'llama3',
           };
         },

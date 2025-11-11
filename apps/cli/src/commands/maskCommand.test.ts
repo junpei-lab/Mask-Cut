@@ -48,7 +48,7 @@ function createHandler(overrides: {
     ({
       getProfile: async () => ({
         name: 'default',
-        endpoint: 'http://localhost:11434/v1',
+        endpoint: 'http://localhost:1234/v1',
         model: 'llama3',
       }),
     } as unknown as ConfigService);

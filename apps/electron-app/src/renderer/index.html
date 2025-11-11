@@ -2,66 +2,285 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mask-Cut Demo</title>
+    <title>Mask-Cut</title>
     <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Segoe UI", "Hiragino Sans", system-ui, sans-serif;
+      }
+
       body {
-        font-family: system-ui, sans-serif;
-        margin: 16px;
+        margin: 0;
+        padding: 24px;
+        background: #0f1115;
+        color: #f5f5f5;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+
+      .shell {
+        max-width: 960px;
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
         gap: 16px;
       }
 
+      h1 {
+        margin: 0 0 8px;
+        font-size: 1.5rem;
+      }
+
+      .connection-info {
+        color: #94a3b8;
+        margin: 0 0 16px;
+      }
+
       textarea {
         width: 100%;
-        height: 200px;
-        font-family: 'Fira Code', monospace;
+        min-height: 200px;
+        resize: vertical;
+        padding: 12px;
+        font-family: "Fira Code", "IBM Plex Mono", Consolas, monospace;
         font-size: 14px;
-        padding: 8px;
+        background: #1b1f24;
+        color: inherit;
+        border: 1px solid #2c323a;
+        border-radius: 8px;
         box-sizing: border-box;
+        margin-top: 8px;
+      }
+
+      textarea:disabled {
+        opacity: 0.6;
+      }
+
+      .panel {
+        background: #15181d;
+        border: 1px solid #20242b;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      }
+
+      .input-header {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .char-counter {
+        margin-left: auto;
+        font-size: 0.85rem;
+        color: #94a3b8;
+      }
+
+      .char-counter[data-status="limit"] {
+        color: #f87171;
+        font-weight: 600;
+      }
+
+      label {
+        font-weight: 600;
+      }
+
+      .input-error {
+        margin: 4px 0 0;
+        min-height: 20px;
+        color: #ff6b6b;
+        font-size: 0.85rem;
       }
 
       .actions {
         display: flex;
         gap: 8px;
+        flex-wrap: wrap;
         align-items: center;
       }
 
-      .status {
-        color: #666;
-        font-size: 12px;
+      button {
+        border: none;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s ease, opacity 0.2s ease;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .primary {
+        background: linear-gradient(120deg, #576bff, #9f6bff);
+        color: white;
+      }
+
+      .secondary {
+        background: #232832;
+        color: #d1d5db;
+      }
+
+      .status-banner {
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .status-banner[data-tone="info"] {
+        background: rgba(87, 107, 255, 0.15);
+        color: #c6d4ff;
+      }
+
+      .status-banner[data-tone="success"] {
+        background: rgba(74, 222, 128, 0.15);
+        color: #b3f5d2;
+      }
+
+      .status-banner[data-tone="error"] {
+        background: rgba(248, 113, 113, 0.1);
+        color: #fecaca;
+      }
+
+      .status-text {
+        flex: 1;
+      }
+
+      .status-controls button {
+        background: transparent;
+        color: inherit;
+        padding: 6px 10px;
+        border: 1px solid currentColor;
+        border-radius: 6px;
+        font-size: 0.85rem;
+      }
+
+      .status-controls button[data-state="highlight"] {
+        color: #fecaca;
+        border-color: #f87171;
+      }
+
+      .result-panel textarea {
+        min-height: 220px;
+      }
+
+      .result-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .result-meta {
+        font-size: 0.9rem;
+        color: #94a3b8;
+      }
+
+      .result-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .copy-feedback {
+        font-size: 0.85rem;
+        min-width: 120px;
+        text-align: right;
+      }
+
+      .copy-feedback[data-status="success"] {
+        color: #4ade80;
+      }
+
+      .copy-feedback[data-status="error"] {
+        color: #f87171;
+      }
+
+      .app-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .app-title__icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        object-fit: cover;
+        background: #0f1115;
       }
     </style>
   </head>
   <body>
-    <h1>Mask-Cut LLM Masking Demo</h1>
+    <main class="shell">
+      <header>
+        <h1 class="app-title">
+          <img
+            id="app-title-icon"
+            alt="Mask-Cut"
+            class="app-title__icon"
+            width="40"
+            height="40"
+          />
+          Mask-Cut
+        </h1>
+        <p>個人情報マスキングツール</p>
+        <p id="connection-info" class="connection-info"></p>
+      </header>
 
-    <section>
-      <h2>接続設定</h2>
-      <p class="status" id="connection-info">
-        接続先: Ollama (http://localhost:11434/v1) / モデル: llama3
-      </p>
-    </section>
+      <section class="panel">
+        <div class="input-header">
+          <label for="text-input">入力テキスト</label>
+          <span id="input-counter" class="char-counter" aria-live="polite"
+            >0 / 1000</span
+          >
+        </div>
+        <textarea
+          id="text-input"
+          maxlength="1000"
+          placeholder="ここにマスキングしたいテキストをペーストしてください"
+        ></textarea>
+        <p class="input-error" id="input-error"></p>
+        <div class="actions">
+          <button id="run-button" class="primary">マスク実行</button>
+        </div>
+      </section>
 
-    <section>
-      <h2>入力テキスト</h2>
-      <textarea id="input" placeholder="ここにマスキングしたいテキストを入力してください"></textarea>
-    </section>
+      <section id="status-banner" class="status-banner" data-tone="info">
+        <span id="status-text" class="status-text"></span>
+        <div class="status-controls">
+          <button id="open-settings" class="secondary" type="button">
+            設定を開く
+          </button>
+        </div>
+      </section>
 
-    <section>
-      <div class="actions">
-        <button id="run">マスク実行</button>
-        <span class="status" id="status-message"></span>
-      </div>
-    </section>
-
-    <section>
-      <h2>出力テキスト</h2>
-      <textarea id="output" readonly placeholder="マスク結果がここに表示されます"></textarea>
-    </section>
-
-    <script src="./renderer.js"></script>
+      <section id="result-panel" class="panel result-panel" hidden>
+        <div class="result-header">
+          <div class="result-meta" id="result-meta"></div>
+          <div class="result-actions">
+            <button id="copy-button" class="secondary" disabled>
+              結果をコピー
+            </button>
+            <span
+              id="copy-feedback"
+              class="copy-feedback"
+              aria-live="polite"
+            ></span>
+          </div>
+        </div>
+        <textarea id="result-text" readonly></textarea>
+      </section>
+    </main>
+    <script type="module" src="./renderer.js"></script>
   </body>
 </html>

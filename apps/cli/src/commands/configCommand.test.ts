@@ -31,7 +31,7 @@ test('config list prints profiles with default indicator', async () => {
       listProfiles: async () => [
         {
           name: 'default',
-          endpoint: 'http://localhost:11434/v1',
+          endpoint: 'http://localhost:1234/v1',
           model: 'llama3',
           updatedAt: '2024-01-01T00:00:00.000Z',
           isDefault: true,

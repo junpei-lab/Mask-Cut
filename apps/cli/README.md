@@ -30,7 +30,7 @@ Mask-Cut CLI は、LLM にテキストを送信する前に人名や社名など
 3. テキストをマスク:
    ```
    mask-cut mask \
-     --base-url http://localhost:11434/v1 \
+     --base-url http://localhost:1234/v1 \
      --model llama3 \
      --api-key dummy \
      --text "田中太郎は東京本社で働いています。"
@@ -54,7 +54,7 @@ mask-cut mask [options] (--text "..." | --file path | stdin)
 
 | オプション | 説明 |
 | --- | --- |
-| `--base-url <url>` | OpenAI 互換 API のベース URL（プロファイル設定があればそちらを優先、未設定時は `http://localhost:11434/v1`） |
+| `--base-url <url>` | OpenAI 互換 API のベース URL（プロファイル設定があればそちらを優先、未設定時は `http://localhost:1234/v1`） |
 | `--api-key <key>` | API キー。不要な環境では省略可 |
 | `--model <name>` | 呼び出すモデル名（デフォルト `llama3`） |
 | `--style block|asterisk|maskTag` | マスクの表示方法 |
@@ -82,7 +82,7 @@ mask-cut config use qa # default プロファイルの切り替え
 ```
 Configured profiles:
 * default   https://api.openai.com/v1  model=gpt-4o-mini  updated=2025-11-08T03:15:21.100Z
-  local     http://localhost:11434/v1  model=llama3       updated=2025-11-05T12:00:00.000Z
+  local     http://localhost:1234/v1  model=llama3       updated=2025-11-05T12:00:00.000Z
 
 '*' indicates the default profile.
 ```
@@ -105,7 +105,7 @@ Configured profiles:
       "updatedAt": "2025-11-08T00:00:00.000Z"
     },
     "local": {
-      "endpoint": "http://localhost:11434/v1",
+      "endpoint": "http://localhost:1234/v1",
       "model": "llama3",
       "updatedAt": "2025-11-05T12:00:00.000Z"
     }
